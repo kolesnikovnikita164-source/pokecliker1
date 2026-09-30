@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokeClicker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="game">
+    <header>
+      <h1>⚡ PokeClicker</h1>
+      <p>Werde zum Clicker-Champion!</p>
+    </header>
+
+    <section class="stats">
+      <div>
+        <span>PokéCoins</span>
+        <strong id="coins">0</strong>
+      </div>
+
+      <div>
+        <span>Pro Klick</span>
+        <strong id="perClick">1</strong>
+      </div>
+
+      <div>
+        <span>Pro Sekunde</span>
+        <strong id="perSecond">0</strong>
+      </div>
+    </section>
+
+    <button id="pokemon" class="pokemon">
+      <span id="pokemonEmoji">⚡</span>
+    </button>
+
+    <p id="message">Klick auf das Pokémon!</p>
+
+    <section class="shop">
+      <h2>🛒 Shop</h2>
+
+      <button class="upgrade" id="clickUpgrade">
+        <span>🔥 Stärkerer Klick</span>
+        <b>Kosten: <span id="clickCost">25</span></b>
+      </button>
+
+      <button class="upgrade" id="autoUpgrade">
+        <span>🤖 Auto-Clicker</span>
+        <b>Kosten: <span id="autoCost">100</span></b>
+      </button>
+
+      <button class="reset" id="reset">
+        Fortschritt zurücksetzen
+      </button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
