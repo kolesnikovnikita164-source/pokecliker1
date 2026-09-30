@@ -4,230 +4,247 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no">
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no">
 
 <title>⚡ PokeClicker</title>
 
 <style>
 
-/* =====================================================
-   GRUNDLAGE
-===================================================== */
+/* =========================================================
+   GRUNDSTIL
+========================================================= */
 
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    padding: 0;
-    min-height: 100%;
-
-    font-family: Arial, sans-serif;
-
     background:
-        linear-gradient(
-            rgba(25, 80, 120, .72),
-            rgba(20, 40, 75, .85)
-        ),
-        linear-gradient(
-            #65c7ef,
-            #b8ecff
-        );
-
-    color: #222;
-
+        radial-gradient(circle at top, #26375d, #10182d 70%);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
-.topbar {
-    height: 70px;
-
-    background: rgba(255,255,255,.96);
-
-    border-bottom: 4px solid #188bb8;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 20px;
-
+.header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
+
+    min-height: 65px;
+
+    background: rgba(10,15,30,.95);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 2px solid #2f9ed1;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 20px;
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: bold;
-    color: #158bb7;
+    font-size: 25px;
+    font-weight: 900;
+    color: #ffd21c;
+
+    text-shadow:
+        2px 2px #1559a5;
 }
 
-.currency {
+.nav {
     display: flex;
-    gap: 10px;
+    gap: 7px;
     flex-wrap: wrap;
 }
 
-.money {
-    background: #f4f4f4;
-
-    border: 2px solid #777;
-    border-radius: 10px;
-
-    padding: 8px 12px;
-
-    font-weight: bold;
-}
-
-
-/* =====================================================
-   HAUPTLAYOUT
-===================================================== */
-
-.layout {
-
-    width: min(1450px, 98vw);
-
-    margin: 15px auto;
-
-    display: grid;
-
-    grid-template-columns:
-        260px
-        minmax(400px, 1fr)
-        300px;
-
-    gap: 12px;
-}
-
-
-/* =====================================================
-   BOXEN
-===================================================== */
-
-.panel {
-
-    background: rgba(255,255,255,.96);
-
-    border: 3px solid #1688b5;
-
+.nav button,
+.admin-button {
+    border: 0;
     border-radius: 8px;
 
-    overflow: hidden;
+    padding: 9px 13px;
 
-    box-shadow:
-        0 5px 12px rgba(0,0,0,.25);
-}
-
-.panel-title {
-
-    background: #1597c4;
-
+    background: #168fc2;
     color: white;
 
-    padding: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    font-size: 19px;
+.nav button:hover,
+.admin-button:hover {
+    background: #24a9df;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 360px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     text-align: center;
 
-    font-weight: bold;
+    padding: 40px 15px;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(67,164,255,.3),
+            transparent 40%
+        );
 }
 
-.panel-content {
-    padding: 10px;
+.hero-pokemon {
+    width: 150px;
+    height: 150px;
+
+    object-fit: contain;
+
+    animation: float 2.5s infinite ease-in-out;
 }
 
+@keyframes float {
 
-/* =====================================================
-   POKEMON LISTE
-===================================================== */
+    0%,100% {
+        transform: translateY(0);
+    }
 
-.pokemon-list {
-    max-height: 470px;
-    overflow-y: auto;
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-.pokemon-row {
+.hero h1 {
+    margin: 0;
 
-    display: flex;
+    font-size: clamp(42px, 8vw, 85px);
 
-    align-items: center;
+    color: #ffd21c;
 
-    gap: 8px;
-
-    padding: 8px;
-
-    border-bottom: 1px solid #ddd;
-
-    cursor: pointer;
-
-    transition: background .15s;
+    text-shadow:
+        5px 5px #1455a0,
+        8px 8px #111;
 }
 
-.pokemon-row:hover {
-    background: #e6f7ff;
-}
-
-.pokemon-row img {
-
-    width: 58px;
-    height: 58px;
-}
-
-.pokemon-info {
-    flex: 1;
-}
-
-.pokemon-name {
-    font-weight: bold;
-}
-
-.level {
-    color: #777;
-    font-size: 13px;
+.hero p {
+    font-size: 19px;
+    color: #dceaff;
 }
 
 
-/* =====================================================
-   MITTLERE SPIELWELT
-===================================================== */
+/* =========================================================
+   STATS
+========================================================= */
 
-.world {
+.stats {
+    width: min(1200px, 94%);
+    margin: auto;
 
-    min-height: 650px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
 
+    gap: 10px;
+}
+
+.stat {
+    background: rgba(255,255,255,.08);
+
+    border: 1px solid rgba(255,255,255,.2);
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    text-align: center;
+}
+
+.stat-icon {
+    font-size: 28px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 22px;
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   HAUPTSEITE
+========================================================= */
+
+.container {
+    width: min(1250px, 94%);
+    margin: 30px auto 80px;
+}
+
+
+/* =========================================================
+   SEKTIONEN
+========================================================= */
+
+.section {
+    margin-top: 35px;
+}
+
+.section-title {
+    font-size: 27px;
+    margin-bottom: 13px;
+
+    color: #ffd21c;
+
+    text-shadow: 2px 2px #111;
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.map {
     position: relative;
+
+    height: 560px;
 
     overflow: hidden;
 
-    border: 4px solid #126d91;
-
-    border-radius: 10px;
+    border: 4px solid #28779a;
+    border-radius: 18px;
 
     background:
-
         linear-gradient(
-            180deg,
-            #79d5f5 0%,
-            #9de4f7 45%,
-            #5bbf6d 45%,
-            #3b9e50 100%
+            #6cccf1 0 42%,
+            #64bb5d 42% 100%
         );
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.45);
 }
 
 
@@ -236,28 +253,28 @@ body {
 .cloud {
     position: absolute;
 
-    width: 130px;
-    height: 35px;
+    width: 150px;
+    height: 45px;
 
-    background: rgba(255,255,255,.75);
+    background: rgba(255,255,255,.65);
 
     border-radius: 50px;
 
     filter: blur(2px);
 }
 
-.cloud.one {
-    top: 60px;
-    left: 30px;
+.cloud1 {
+    top: 50px;
+    left: 7%;
 }
 
-.cloud.two {
-    top: 110px;
-    right: 40px;
+.cloud2 {
+    top: 100px;
+    right: 8%;
 }
 
-.cloud.three {
-    top: 190px;
+.cloud3 {
+    top: 160px;
     left: 45%;
 }
 
@@ -267,26 +284,24 @@ body {
 .mountain {
     position: absolute;
 
-    bottom: 280px;
+    bottom: 190px;
 
     width: 0;
     height: 0;
 
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-bottom: 180px solid #688d8e;
 
-    border-bottom: 220px solid #7298a1;
-
-    opacity: .7;
+    opacity: .75;
 }
 
-.mountain.one {
+.mountain1 {
     left: 5%;
 }
 
-.mountain.two {
-    right: 0;
-    transform: scale(.8);
+.mountain2 {
+    right: 5%;
 }
 
 
@@ -295,70 +310,61 @@ body {
 .grass {
     position: absolute;
 
-    bottom: 0;
-
     left: 0;
     right: 0;
+    bottom: 0;
 
-    height: 300px;
+    height: 310px;
 
     background:
         repeating-linear-gradient(
             135deg,
-            #55b95e 0px,
-            #55b95e 15px,
-            #49aa54 15px,
-            #49aa54 30px
+            #54b857 0,
+            #54b857 20px,
+            #49a94f 20px,
+            #49a94f 40px
         );
 }
 
 
 /* Weg */
 
-.path {
-
+.road {
     position: absolute;
 
-    width: 220px;
-    height: 100%;
+    left: 43%;
+    top: 40%;
 
-    left: 50%;
-
-    transform: translateX(-50%);
+    width: 17%;
+    height: 60%;
 
     background:
         repeating-linear-gradient(
             0deg,
-            #d6bd7b 0,
-            #d6bd7b 25px,
-            #c8ad68 25px,
-            #c8ad68 50px
+            #d5bd7a 0 30px,
+            #c7ad68 30px 60px
         );
 
-    opacity: .95;
+    transform: skewX(-5deg);
 }
 
 
 /* Wasser */
 
 .water {
-
     position: absolute;
 
-    left: 0;
-    right: 0;
-
     bottom: 0;
+    left: 0;
 
-    height: 95px;
+    width: 27%;
+    height: 120px;
 
     background:
         repeating-linear-gradient(
             0deg,
-            #42aee0,
-            #42aee0 12px,
-            #69c7ec 12px,
-            #69c7ec 24px
+            #42a9df 0 15px,
+            #65c5ed 15px 30px
         );
 }
 
@@ -366,126 +372,98 @@ body {
 /* Haus */
 
 .house {
-
     position: absolute;
 
-    top: 210px;
-    left: 50%;
+    top: 245px;
+    left: 43%;
 
-    transform: translateX(-50%);
+    width: 180px;
+    height: 120px;
 
-    width: 190px;
-    height: 130px;
+    background: #e5bd7d;
 
-    background: #e6c98e;
+    border: 5px solid #533c2c;
 
-    border: 5px solid #603b2b;
-
-    z-index: 5;
+    z-index: 10;
 }
 
 .roof {
-
     position: absolute;
 
-    top: -75px;
-    left: -20px;
+    left: -18px;
+    top: -65px;
 
-    width: 210px;
-    height: 90px;
+    width: 205px;
+    height: 75px;
 
-    background: #bd4739;
+    background: #c64c3c;
 
-    border: 5px solid #603b2b;
+    border: 5px solid #533c2c;
 
-    transform: skewX(-25deg);
+    transform: skewX(-20deg);
 }
 
 .door {
-
     position: absolute;
 
     bottom: 0;
-    left: 70px;
+    left: 65px;
 
-    width: 50px;
-    height: 70px;
+    width: 48px;
+    height: 68px;
 
-    background: #70472e;
+    background: #67462f;
 
-    border: 4px solid #40271b;
+    border: 4px solid #392719;
 }
 
 
-/* =====================================================
-   WERKZEUG / POKEMON AUF MAP
-===================================================== */
+/* =========================================================
+   WILDES POKEMON
+========================================================= */
 
-.wild-pokemon {
-
+.wild {
     position: absolute;
 
-    width: 130px;
-    height: 130px;
+    width: 125px;
+    height: 125px;
 
-    z-index: 20;
+    object-fit: contain;
+
+    z-index: 30;
 
     cursor: pointer;
 
-    transition:
-        left .4s,
-        top .4s,
-        transform .15s;
+    filter:
+        drop-shadow(0 8px 5px rgba(0,0,0,.4));
 
     animation:
-        floating 2s infinite ease-in-out;
+        wildFloat 1.8s infinite ease-in-out;
+
+    transition: .2s;
 }
 
-.wild-pokemon:hover {
+.wild:hover {
     transform: scale(1.15);
 }
 
-@keyframes floating {
+@keyframes wildFloat {
 
-    0% {
+    0%,100% {
         margin-top: 0;
     }
 
     50% {
-        margin-top: -10px;
-    }
-
-    100% {
-        margin-top: 0;
+        margin-top: -12px;
     }
 }
 
 
-/* =====================================================
-   SPIELER
-===================================================== */
+/* =========================================================
+   MAP INFO
+========================================================= */
 
-.player {
-
-    position: absolute;
-
-    bottom: 105px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    font-size: 55px;
-
-    z-index: 30;
-}
-
-
-/* =====================================================
-   MAP HEADER
-===================================================== */
-
-.world-title {
-
+.map-label {
     position: absolute;
 
     top: 15px;
@@ -495,205 +473,326 @@ body {
 
     z-index: 50;
 
-    background: rgba(0,0,0,.55);
+    padding: 10px 22px;
 
-    color: white;
+    background: rgba(0,0,0,.6);
 
-    padding: 10px 25px;
+    border-radius: 30px;
 
-    border-radius: 20px;
-
-    font-size: 23px;
+    font-size: 21px;
+    font-weight: bold;
 }
 
 
-/* =====================================================
-   ITEMS
-===================================================== */
+/* =========================================================
+   BOX
+========================================================= */
 
-.item-grid {
+.box {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.04)
+        );
 
+    border: 1px solid rgba(255,255,255,.16);
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   POKEMON SAMMLUNG
+========================================================= */
+
+.collection {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(auto-fill,minmax(150px,1fr));
 
-    gap: 7px;
+    gap: 12px;
+}
+
+.pokemon-card {
+
+    min-height: 190px;
+
+    padding: 12px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7fbff,
+            #cdeeff
+        );
+
+    color: #172238;
+
+    text-align: center;
+
+    border: 3px solid #4ba7d1;
+
+    position: relative;
+}
+
+.pokemon-card img {
+
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+}
+
+.pokemon-card.locked {
+
+    background:
+        linear-gradient(
+            145deg,
+            #262b39,
+            #151925
+        );
+
+    color: #8e94a4;
+
+    border-color: #414755;
+}
+
+.pokemon-card.locked img {
+    display: none;
+}
+
+.question {
+    font-size: 75px;
+    line-height: 105px;
+}
+
+
+/* =========================================================
+   ITEMS
+========================================================= */
+
+.items {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(150px,1fr));
+
+    gap: 12px;
 }
 
 .item {
 
-    border: 2px solid #777;
+    padding: 18px;
 
-    background: #f5f5f5;
+    background: rgba(255,255,255,.08);
 
-    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,.15);
 
-    padding: 8px;
+    border-radius: 13px;
 
     text-align: center;
 
     cursor: pointer;
 }
 
+.item:hover {
+    background: rgba(255,255,255,.14);
+}
+
 .item-icon {
-    font-size: 30px;
+    font-size: 43px;
 }
 
-.item-count {
-    font-weight: bold;
+.item strong {
+    display: block;
+    margin-top: 8px;
 }
 
 
-/* =====================================================
+/* =========================================================
    ATTACKEN
-===================================================== */
+========================================================= */
+
+.attacks {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(190px,1fr));
+
+    gap: 10px;
+}
 
 .attack {
 
-    width: 100%;
+    border: 0;
 
-    padding: 12px;
+    border-radius: 12px;
 
-    margin: 5px 0;
-
-    border: 2px solid #333;
-
-    border-radius: 8px;
+    padding: 16px;
 
     cursor: pointer;
 
-    background:
-        linear-gradient(
-            #fff,
-            #d9d9d9
-        );
-
     text-align: left;
 
-    font-size: 15px;
-}
+    background:
+        linear-gradient(
+            135deg,
+            #ffd426,
+            #f58d17
+        );
 
-.attack:hover {
-    background: #dff5ff;
-}
-
-.attack strong {
-    display: block;
-}
-
-.attack small {
-    color: #777;
-}
-
-
-/* =====================================================
-   QUESTS
-===================================================== */
-
-.quest {
-
-    padding: 12px;
-
-    border-bottom: 1px solid #ddd;
-}
-
-.quest-title {
+    color: #151515;
 
     font-weight: bold;
 
-    font-size: 16px;
+    box-shadow:
+        0 5px 0 #8a4b0d;
+}
 
-    margin-bottom: 7px;
+.attack:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #8a4b0d;
+}
+
+
+/* =========================================================
+   QUESTS
+========================================================= */
+
+.quests {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+
+    gap: 12px;
+}
+
+.quest {
+
+    background: rgba(255,255,255,.08);
+
+    border-radius: 12px;
+
+    padding: 17px;
+
+    border: 1px solid rgba(255,255,255,.15);
+}
+
+.quest-title {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .progress {
 
-    height: 18px;
+    height: 17px;
 
-    background: #555;
+    background: #252a36;
 
-    border-radius: 4px;
+    border-radius: 10px;
 
     overflow: hidden;
+
+    margin-top: 10px;
 }
 
 .progress-bar {
 
     height: 100%;
 
-    background: #39ae68;
-
     width: 0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #28d879,
+            #7affb0
+        );
 
     transition: width .3s;
 }
 
-.quest-reward {
 
-    margin-top: 6px;
+/* =========================================================
+   ADMIN
+========================================================= */
 
-    color: #777;
+.admin-panel {
 
-    font-size: 13px;
-}
+    display: none;
 
+    margin-top: 15px;
 
-/* =====================================================
-   DECK
-===================================================== */
+    padding: 18px;
 
-.deck {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 7px;
-}
-
-.card {
+    border-radius: 14px;
 
     background:
         linear-gradient(
-            #fff,
-            #d8f3ff
+            135deg,
+            #421313,
+            #210b0b
         );
 
-    border: 3px solid #2786a8;
+    border: 2px solid #e44242;
+}
+
+.admin-panel input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin: 7px 0;
 
     border-radius: 8px;
 
-    text-align: center;
+    border: 0;
 
-    padding: 5px;
+    font-size: 16px;
 }
 
-.card img {
+.admin-action {
 
-    width: 70px;
-    height: 70px;
+    padding: 11px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #e84444;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin: 4px;
 }
 
-.card strong {
-    display: block;
-}
 
+/* =========================================================
+   BATTLE
+========================================================= */
 
-/* =====================================================
-   BATTLE POPUP
-===================================================== */
-
-.battle {
+.battle-overlay {
 
     position: fixed;
 
     inset: 0;
 
-    background: rgba(0,0,0,.65);
-
-    z-index: 500;
+    z-index: 5000;
 
     display: none;
 
@@ -701,49 +800,58 @@ body {
     justify-content: center;
 
     padding: 15px;
+
+    background: rgba(0,0,0,.75);
 }
 
 .battle-box {
 
-    width: min(600px, 95vw);
+    width: min(600px,95vw);
 
-    background: white;
+    background:
+        linear-gradient(
+            145deg,
+            #f8fcff,
+            #cbeeff
+        );
 
-    border: 5px solid #1688b5;
+    color: #172238;
 
-    border-radius: 15px;
+    border: 5px solid #168fc2;
+
+    border-radius: 20px;
 
     padding: 20px;
 
     text-align: center;
 }
 
-.battle-pokemon {
+.battle-box img {
 
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
+
+    object-fit: contain;
 }
 
 .hp {
 
     height: 25px;
 
-    background: #444;
+    background: #34343b;
 
-    border-radius: 10px;
+    border-radius: 20px;
 
     overflow: hidden;
-
-    margin: 10px 0;
 }
 
 .hp-bar {
 
     height: 100%;
 
-    background: #42bd64;
-
     width: 100%;
+
+    background: #3dca68;
 
     transition: width .25s;
 }
@@ -752,126 +860,78 @@ body {
 
     display: grid;
 
-    grid-template-columns:
-        repeat(2, 1fr);
+    grid-template-columns: repeat(2,1fr);
 
     gap: 8px;
+
+    margin-top: 15px;
 }
 
 .battle-buttons button {
 
     padding: 13px;
 
-    border: 2px solid #333;
+    border: 0;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    cursor: pointer;
+    background: #178fc1;
+
+    color: white;
 
     font-weight: bold;
+
+    cursor: pointer;
 }
 
 
-/* =====================================================
-   LOG
-===================================================== */
+/* =========================================================
+   FOOTER
+========================================================= */
 
-.log {
+.footer {
 
-    height: 100px;
+    text-align: center;
 
-    overflow-y: auto;
+    padding: 35px;
 
-    background: #101820;
+    color: #8995af;
 
-    color: #72ff8c;
-
-    font-family: monospace;
-
-    padding: 8px;
-
-    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,.1);
 }
 
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* =========================================================
+   MOBILE
+========================================================= */
 
-@media(max-width: 1000px) {
+@media(max-width:800px) {
 
-    .layout {
-
-        grid-template-columns:
-            220px
-            1fr;
-    }
-
-    .right-column {
-
-        grid-column:
-            1 / -1;
-
-        display: grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
+    .header {
+        flex-direction: column;
         gap: 10px;
     }
-}
 
-
-@media(max-width: 700px) {
-
-    .topbar {
-
-        height: auto;
-
-        padding: 10px;
-
-        flex-direction: column;
-
-        gap: 8px;
+    .stats {
+        grid-template-columns: repeat(2,1fr);
     }
 
-    .layout {
-
-        width: 100%;
-
-        padding: 7px;
-
-        grid-template-columns:
-            1fr;
+    .map {
+        height: 500px;
     }
 
-    .left-column,
-    .right-column {
-
-        display: block;
-
-        grid-column: auto;
+    .house {
+        left: 38%;
+        transform: scale(.8);
     }
 
-    .world {
-
-        min-height: 550px;
+    .wild {
+        width: 100px;
+        height: 100px;
     }
 
-    .currency {
-
-        justify-content: center;
-    }
-
-    .pokemon-row {
-
-        padding: 5px;
-    }
-
-    .pokemon-row img {
-
-        width: 45px;
-        height: 45px;
+    .hero h1 {
+        font-size: 45px;
     }
 }
 
@@ -882,793 +942,875 @@ body {
 <body>
 
 
-<!-- =====================================================
+<!-- =========================================================
      HEADER
-===================================================== -->
+========================================================= -->
 
-<header class="topbar">
+<header class="header">
 
     <div class="logo">
         ⚡ PokeClicker
     </div>
 
-    <div class="currency">
+    <nav class="nav">
 
-        <div class="money">
-            🪙 <span id="coins">0</span>
-        </div>
+        <button onclick="scrollToId('mapSection')">
+            🗺️ Map
+        </button>
 
-        <div class="money">
-            💎 <span id="gems">0</span>
-        </div>
+        <button onclick="scrollToId('collectionSection')">
+            🐾 Pokémon
+        </button>
 
-        <div class="money">
-            ⭐ <span id="stars">0</span>
-        </div>
+        <button onclick="scrollToId('questsSection')">
+            📜 Quests
+        </button>
 
-    </div>
+        <button onclick="toggleAdmin()">
+            🔐 Admin
+        </button>
+
+    </nav>
 
 </header>
 
 
-<!-- =====================================================
-     HAUPTLAYOUT
-===================================================== -->
+<!-- =========================================================
+     HERO
+========================================================= -->
 
-<div class="layout">
+<section class="hero">
+
+    <img
+        class="hero-pokemon"
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+
+    <h1>PokeClicker</h1>
+
+    <p>
+        Fange wilde Pokémon, sammle Coins und werde zum Meister!
+    </p>
+
+</section>
 
 
-<!-- =====================================================
-     LINKE SPALTE
-===================================================== -->
+<!-- =========================================================
+     STATS
+========================================================= -->
 
-<div class="left-column">
+<div class="stats">
 
-
-<div class="panel">
-
-    <div class="panel-title">
-        🐾 Pokémon
+    <div class="stat">
+        <div class="stat-icon">🪙</div>
+        Coins
+        <strong id="coins">0</strong>
     </div>
 
-    <div
-        class="pokemon-list"
-        id="pokemonList">
+    <div class="stat">
+        <div class="stat-icon">🔴</div>
+        Pokébälle
+        <strong id="balls">10</strong>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">🐾</div>
+        Gefangen
+        <strong id="caught">0</strong>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">⚔️</div>
+        Siege
+        <strong id="wins">0</strong>
     </div>
 
 </div>
 
 
-<br>
+<main class="container">
 
 
-<div class="panel">
+<!-- =========================================================
+     MAP
+========================================================= -->
 
-    <div class="panel-title">
+<section
+    class="section"
+    id="mapSection">
+
+    <div class="section-title">
+        🗺️ Viridian Forest
+    </div>
+
+    <div class="map">
+
+        <div class="map-label">
+            🌳 Route 1 — Wilde Pokémon
+        </div>
+
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+
+        <div class="mountain mountain1"></div>
+        <div class="mountain mountain2"></div>
+
+        <div class="grass"></div>
+
+        <div class="road"></div>
+
+        <div class="water"></div>
+
+        <div class="house">
+            <div class="roof"></div>
+            <div class="door"></div>
+        </div>
+
+        <!-- WILDES POKEMON -->
+
+        <img
+            id="wildPokemon"
+            class="wild"
+            src="">
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HINWEIS
+========================================================= -->
+
+<section class="section">
+
+    <div class="box">
+
+        🎯
+        <strong>So funktioniert es:</strong>
+
+        Klicke auf ein wildes Pokémon auf der Map.
+        Danach startet ein Kampf.
+        Schwäche es und benutze einen Pokéball,
+        um es zu fangen!
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SAMMLUNG
+========================================================= -->
+
+<section
+    class="section"
+    id="collectionSection">
+
+    <div class="section-title">
+        🐾 Dein Pokédex
+    </div>
+
+    <div class="box">
+
+        <p>
+            Gefangen:
+            <strong id="collectionCount">0</strong>
+            Pokémon
+        </p>
+
+        <div
+            class="collection"
+            id="collection">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ITEMS
+========================================================= -->
+
+<section class="section">
+
+    <div class="section-title">
         🎒 Items
     </div>
 
-    <div class="panel-content">
+    <div class="box">
 
-        <div class="item-grid">
+        <div class="items">
 
-            <div class="item">
-                <div class="item-icon">🔴</div>
-                <div>Pokéball</div>
-                <div class="item-count">
-                    × <span id="pokeballs">10</span>
+            <div
+                class="item"
+                onclick="buyBall()">
+
+                <div class="item-icon">
+                    🔴
                 </div>
+
+                <strong>Pokéball</strong>
+
+                <span>
+                    × <b id="ballCount">10</b>
+                </span>
+
+                <small>
+                    Kaufen: 50 Coins
+                </small>
+
             </div>
 
-            <div class="item">
-                <div class="item-icon">🔵</div>
-                <div>Superball</div>
-                <div class="item-count">
-                    × <span id="greatballs">3</span>
+
+            <div
+                class="item"
+                onclick="buyGreatBall()">
+
+                <div class="item-icon">
+                    🔵
                 </div>
+
+                <strong>Superball</strong>
+
+                <span>
+                    × <b id="greatBallCount">3</b>
+                </span>
+
+                <small>
+                    Kaufen: 150 Coins
+                </small>
+
             </div>
 
-            <div class="item">
-                <div class="item-icon">🧪</div>
-                <div>Trank</div>
-                <div class="item-count">
-                    × <span id="potions">5</span>
+
+            <div
+                class="item"
+                onclick="buyPotion()">
+
+                <div class="item-icon">
+                    🧪
                 </div>
+
+                <strong>Trank</strong>
+
+                <span>
+                    × <b id="potionCount">5</b>
+                </span>
+
+                <small>
+                    Heilt im Kampf
+                </small>
+
             </div>
 
         </div>
 
     </div>
 
-</div>
+</section>
 
 
-<br>
+<!-- =========================================================
+     ATTACKEN
+========================================================= -->
 
+<section class="section">
 
-<div class="panel">
-
-    <div class="panel-title">
+    <div class="section-title">
         ⚔️ Attacken
     </div>
 
-    <div class="panel-content">
+    <div class="box">
 
-        <button class="attack"
-                onclick="attack('Donnerblitz', 10)">
-            ⚡ <strong>Donnerblitz</strong>
-            <small>10 Schaden</small>
-        </button>
+        <div class="attacks">
 
-        <button class="attack"
-                onclick="attack('Feuersturm', 20)">
-            🔥 <strong>Feuersturm</strong>
-            <small>20 Schaden</small>
-        </button>
+            <button
+                class="attack"
+                onclick="battleAttack(10)">
 
-        <button class="attack"
-                onclick="attack('Hydropumpe', 30)">
-            💧 <strong>Hydropumpe</strong>
-            <small>30 Schaden</small>
-        </button>
+                ⚡ Donnerblitz
 
-        <button class="attack"
-                onclick="attack('Solarstrahl', 50)">
-            🌿 <strong>Solarstrahl</strong>
-            <small>50 Schaden</small>
-        </button>
+                <br>
 
-    </div>
+                <small>
+                    10 Schaden
+                </small>
 
-</div>
+            </button>
 
 
-</div>
+            <button
+                class="attack"
+                onclick="battleAttack(20)">
+
+                🔥 Feuersturm
+
+                <br>
+
+                <small>
+                    20 Schaden
+                </small>
+
+            </button>
 
 
-<!-- =====================================================
-     MITTE
-===================================================== -->
+            <button
+                class="attack"
+                onclick="battleAttack(30)">
 
-<div>
+                💧 Hydropumpe
 
+                <br>
 
-<div class="world"
-     id="world">
+                <small>
+                    30 Schaden
+                </small>
 
-
-<div class="world-title">
-    🌳 Viridian Forest
-</div>
-
-
-<div class="cloud one"></div>
-<div class="cloud two"></div>
-<div class="cloud three"></div>
+            </button>
 
 
-<div class="mountain one"></div>
-<div class="mountain two"></div>
+            <button
+                class="attack"
+                onclick="battleAttack(50)">
 
+                🌿 Solarstrahl
 
-<div class="grass"></div>
+                <br>
 
-<div class="path"></div>
+                <small>
+                    50 Schaden
+                </small>
 
-<div class="water"></div>
-
-
-<div class="house">
-
-    <div class="roof"></div>
-
-    <div class="door"></div>
-
-</div>
-
-
-<div class="player">
-    🧢
-</div>
-
-
-<!-- WILD POKEMON -->
-
-<img
-    id="wildPokemon"
-    class="wild-pokemon"
-    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
-    onclick="startBattle()"
->
-
-
-</div>
-
-
-<br>
-
-
-<!-- DECK -->
-
-<div class="panel">
-
-    <div class="panel-title">
-        🃏 Dein Pokémon-Team
-    </div>
-
-    <div class="panel-content">
-
-        <div class="deck">
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
-                <strong>Pikachu</strong>
-                Lv. 25
-            </div>
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png">
-                <strong>Glumanda</strong>
-                Lv. 18
-            </div>
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png">
-                <strong>Schiggy</strong>
-                Lv. 20
-            </div>
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png">
-                <strong>Evoli</strong>
-                Lv. 22
-            </div>
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png">
-                <strong>Bisasam</strong>
-                Lv. 16
-            </div>
-
-            <div class="card">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png">
-                <strong>Glurak</strong>
-                Lv. 30
-            </div>
+            </button>
 
         </div>
 
     </div>
 
-</div>
+</section>
 
 
-<br>
+<!-- =========================================================
+     QUESTS
+========================================================= -->
 
+<section
+    class="section"
+    id="questsSection">
 
-<div class="panel">
-
-    <div class="panel-title">
-        📜 Ereignisse
-    </div>
-
-    <div class="log"
-         id="log">
-
-        [SYSTEM] Willkommen bei PokeClicker!<br>
-
-    </div>
-
-</div>
-
-
-</div>
-
-
-<!-- =====================================================
-     RECHTE SPALTE
-===================================================== -->
-
-<div class="right-column">
-
-
-<div class="panel">
-
-    <div class="panel-title">
+    <div class="section-title">
         📜 Quest Lines
     </div>
 
+    <div class="quests">
 
-    <div class="quest">
+        <div class="quest">
 
-        <div class="quest-title">
-            ⭐ Fang 5 Pokémon
-        </div>
-
-        <div class="progress">
-            <div
-                class="progress-bar"
-                id="questCatch">
+            <div class="quest-title">
+                🔴 Fang 5 Pokémon
             </div>
-        </div>
 
-        <div id="questCatchText">
-            0 / 5
-        </div>
-
-        <div class="quest-reward">
-            Belohnung: 🪙 500
-        </div>
-
-    </div>
-
-
-    <div class="quest">
-
-        <div class="quest-title">
-            ⚔️ Besiege Pokémon
-        </div>
-
-        <div class="progress">
-            <div
-                class="progress-bar"
-                id="questBattle">
+            <div class="progress">
+                <div
+                    id="questCatch"
+                    class="progress-bar">
+                </div>
             </div>
-        </div>
 
-        <div id="questBattleText">
-            0 / 10
-        </div>
-
-        <div class="quest-reward">
-            Belohnung: 💎 5
-        </div>
-
-    </div>
-
-
-    <div class="quest">
-
-        <div class="quest-title">
-            🪙 Sammle Coins
-        </div>
-
-        <div class="progress">
-            <div
-                class="progress-bar"
-                id="questCoins">
-            </div>
-        </div>
-
-        <div id="questCoinsText">
-            0 / 1000
-        </div>
-
-        <div class="quest-reward">
-            Belohnung: ⭐ 1
-        </div>
-
-    </div>
-
-</div>
-
-
-<br>
-
-
-<div class="panel">
-
-    <div class="panel-title">
-        🏆 Statistik
-    </div>
-
-    <div class="panel-content">
-
-        <p>
-            Pokémon gefangen:
-            <strong id="caught">
-                0
-            </strong>
-        </p>
-
-        <p>
-            Kämpfe gewonnen:
-            <strong id="wins">
-                0
-            </strong>
-        </p>
-
-        <p>
-            Attacken:
-            <strong id="attacks">
-                0
-            </strong>
-        </p>
-
-        <p>
-            Spielzeit:
-            <strong id="time">
-                0 min
-            </strong>
-        </p>
-
-    </div>
-
-</div>
-
-
-<br>
-
-
-<div class="panel">
-
-    <div class="panel-title">
-        🏪 PokéMart
-    </div>
-
-    <div class="panel-content">
-
-        <button
-            class="attack"
-            onclick="buyBall()">
-
-            🔴 Pokéball kaufen
+            <p id="questCatchText">
+                0 / 5
+            </p>
 
             <small>
-                50 Coins
+                Belohnung: 🪙 500 Coins
             </small>
+
+        </div>
+
+
+        <div class="quest">
+
+            <div class="quest-title">
+                ⚔️ Gewinne 10 Kämpfe
+            </div>
+
+            <div class="progress">
+                <div
+                    id="questWins"
+                    class="progress-bar">
+                </div>
+            </div>
+
+            <p id="questWinsText">
+                0 / 10
+            </p>
+
+            <small>
+                Belohnung: 💎 10
+            </small>
+
+        </div>
+
+
+        <div class="quest">
+
+            <div class="quest-title">
+                🪙 Sammle 1.000 Coins
+            </div>
+
+            <div class="progress">
+                <div
+                    id="questCoins"
+                    class="progress-bar">
+                </div>
+            </div>
+
+            <p id="questCoinsText">
+                0 / 1000
+            </p>
+
+            <small>
+                Belohnung: 🔴 10 Pokébälle
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN
+========================================================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        🔐 Admin
+    </div>
+
+    <div class="box">
+
+        <button
+            class="admin-button"
+            onclick="toggleAdmin()">
+
+            🔐 Admin-Menü öffnen
 
         </button>
 
 
-        <button
-            class="attack"
-            onclick="buyGreatBall()">
+        <div
+            class="admin-panel"
+            id="adminPanel">
 
-            🔵 Superball kaufen
+            <h2>👑 Admin Panel</h2>
 
-            <small>
-                150 Coins
-            </small>
+            <p>
+                Gib den Admin-Code ein.
+            </p>
 
-        </button>
+            <input
+                id="adminCode"
+                type="password"
+                placeholder="Admin-Code">
+
+
+            <button
+                class="admin-action"
+                onclick="loginAdmin()">
+
+                🔓 Einloggen
+
+            </button>
+
+
+            <div
+                id="adminTools"
+                style="display:none">
+
+                <hr>
+
+                <h3>
+                    👑 Admin Tools
+                </h3>
+
+
+                <button
+                    class="admin-action"
+                    onclick="adminCoins()">
+
+                    🪙 +10.000 Coins
+
+                </button>
+
+
+                <button
+                    class="admin-action"
+                    onclick="adminBalls()">
+
+                    🔴 +100 Pokébälle
+
+                </button>
+
+
+                <button
+                    class="admin-action"
+                    onclick="adminCatchAll()">
+
+                    🐾 Alle Pokémon freischalten
+
+                </button>
+
+
+                <button
+                    class="admin-action"
+                    onclick="adminReset()">
+
+                    🗑️ Spiel zurücksetzen
+
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+</section>
 
 
-</div>
-
-</div>
+</main>
 
 
-<!-- =====================================================
-     BATTLE POPUP
-===================================================== -->
+<!-- =========================================================
+     BATTLE
+========================================================= -->
 
 <div
-    class="battle"
+    class="battle-overlay"
     id="battle">
 
+    <div class="battle-box">
 
-<div class="battle-box">
-
-
-<h2 id="battleTitle">
-    ⚔️ Wildes Pokémon!
-</h2>
+        <h2 id="battleName">
+            Wildes Pokémon
+        </h2>
 
 
-<img
-    id="battlePokemon"
-    class="battle-pokemon"
-    src=""
->
+        <img
+            id="battleImage"
+            src="">
 
 
-<div>
+        <div>
 
-    ❤️
+            ❤️
 
-    <span id="hpText">
-        100 / 100
-    </span>
+            <span id="hpText">
+                100 / 100
+            </span>
 
-</div>
+        </div>
 
 
-<div class="hp">
+        <div class="hp">
 
-    <div
-        class="hp-bar"
-        id="hpBar">
+            <div
+                id="hpBar"
+                class="hp-bar">
+            </div>
+
+        </div>
+
+
+        <div class="battle-buttons">
+
+            <button
+                onclick="battleAttack(10)">
+
+                ⚡ Donnerblitz
+
+            </button>
+
+
+            <button
+                onclick="battleAttack(20)">
+
+                🔥 Feuersturm
+
+            </button>
+
+
+            <button
+                onclick="throwBall()">
+
+                🔴 Pokéball
+
+            </button>
+
+
+            <button
+                onclick="throwGreatBall()">
+
+                🔵 Superball
+
+            </button>
+
+
+            <button
+                onclick="usePotion()">
+
+                🧪 Trank
+
+            </button>
+
+
+            <button
+                onclick="runAway()">
+
+                🏃 Fliehen
+
+            </button>
+
+        </div>
+
     </div>
 
 </div>
 
 
-<div class="battle-buttons">
+<footer class="footer">
 
-    <button onclick="battleAttack(10)">
-        ⚡ Donnerblitz
-    </button>
+    ⚡ PokeClicker
 
-    <button onclick="battleAttack(20)">
-        🔥 Feuersturm
-    </button>
+    <br><br>
 
-    <button onclick="throwBall()">
-        🔴 Pokéball
-    </button>
+    Fange sie alle!
 
-    <button onclick="closeBattle()">
-        🏃 Fliehen
-    </button>
-
-</div>
-
-
-</div>
-
-</div>
+</footer>
 
 
 <script>
 
-/* =====================================================
+/* =========================================================
+   SPEICHER
+========================================================= */
+
+const SAVE =
+    "pokeClickerSaveV2";
+
+
+let saveData =
+    JSON.parse(
+        localStorage.getItem(SAVE)
+    ) || {};
+
+
+/* =========================================================
    SPIELDATEN
-===================================================== */
+========================================================= */
 
 let coins =
-    Number(localStorage.getItem("coins") || 0);
+    saveData.coins || 0;
 
-let gems =
-    Number(localStorage.getItem("gems") || 0);
+let balls =
+    saveData.balls || 10;
 
-let stars =
-    Number(localStorage.getItem("stars") || 0);
-
-let caught =
-    Number(localStorage.getItem("caught") || 0);
-
-let wins =
-    Number(localStorage.getItem("wins") || 0);
-
-let attacks =
-    Number(localStorage.getItem("attacks") || 0);
-
-let pokeballs =
-    Number(localStorage.getItem("pokeballs") || 10);
-
-let greatballs =
-    Number(localStorage.getItem("greatballs") || 3);
+let greatBalls =
+    saveData.greatBalls || 3;
 
 let potions =
-    Number(localStorage.getItem("potions") || 5);
+    saveData.potions || 5;
+
+let wins =
+    saveData.wins || 0;
+
+let caught =
+    saveData.caught || [];
 
 let questCatch =
-    Number(localStorage.getItem("questCatch") || 0);
+    saveData.questCatch || 0;
 
-let questBattle =
-    Number(localStorage.getItem("questBattle") || 0);
+let questWins =
+    saveData.questWins || 0;
+
+let gems =
+    saveData.gems || 0;
 
 
-/* =====================================================
+/* =========================================================
    POKEMON
-===================================================== */
+========================================================= */
 
 const pokemon = [
 
-    {
-        name: "Pikachu",
-        id: 25
-    },
+    {name:"Pikachu",id:25},
 
-    {
-        name: "Glumanda",
-        id: 4
-    },
+    {name:"Glumanda",id:4},
 
-    {
-        name: "Schiggy",
-        id: 7
-    },
+    {name:"Schiggy",id:7},
 
-    {
-        name: "Bisasam",
-        id: 1
-    },
+    {name:"Bisasam",id:1},
 
-    {
-        name: "Evoli",
-        id: 133
-    },
+    {name:"Evoli",id:133},
 
-    {
-        name: "Glurak",
-        id: 6
-    },
+    {name:"Glurak",id:6},
 
-    {
-        name: "Relaxo",
-        id: 143
-    },
+    {name:"Relaxo",id:143},
 
-    {
-        name: "Lapras",
-        id: 131
-    },
+    {name:"Lapras",id:131},
 
-    {
-        name: "Mew",
-        id: 151
-    },
+    {name:"Gengar",id:94},
 
-    {
-        name: "Gengar",
-        id: 94
-    },
+    {name:"Lucario",id:448},
 
-    {
-        name: "Lucario",
-        id: 448
-    },
+    {name:"Mew",id:151},
 
-    {
-        name: "Rayquaza",
-        id: 384
-    }
+    {name:"Rayquaza",id:384},
+
+    {name:"Dratini",id:147},
+
+    {name:"Dragonir",id:148},
+
+    {name:"Dragoran",id:149},
+
+    {name:"Gyarados",id:130},
+
+    {name:"Garados",id:130},
+
+    {name:"Arkani",id:59},
+
+    {name:"Nachtara",id:197},
+
+    {name:"Psiana",id:196}
 
 ];
 
 
-/* =====================================================
-   AKTUELLES POKEMON
-===================================================== */
+/* =========================================================
+   AKTUELLES WILDES POKEMON
+========================================================= */
 
 let currentPokemon =
     pokemon[
         Math.floor(
-            Math.random() * pokemon.length
+            Math.random() *
+            pokemon.length
         )
     ];
 
 
-let currentHP = 100;
+let hp = 100;
 
 let maxHP = 100;
 
 
-/* =====================================================
-   ELEMENTE
-===================================================== */
+/* =========================================================
+   URL FÜR POKEMON
+========================================================= */
 
-const coinsElement =
-    document.getElementById("coins");
+function imageURL(id) {
 
-const gemsElement =
-    document.getElementById("gems");
-
-const starsElement =
-    document.getElementById("stars");
-
-const caughtElement =
-    document.getElementById("caught");
-
-const winsElement =
-    document.getElementById("wins");
-
-const attacksElement =
-    document.getElementById("attacks");
-
-const pokeballsElement =
-    document.getElementById("pokeballs");
-
-const greatballsElement =
-    document.getElementById("greatballs");
-
-
-/* =====================================================
-   SPEICHERN
-===================================================== */
-
-function save() {
-
-    localStorage.setItem(
-        "coins",
-        coins
-    );
-
-    localStorage.setItem(
-        "gems",
-        gems
-    );
-
-    localStorage.setItem(
-        "stars",
-        stars
-    );
-
-    localStorage.setItem(
-        "caught",
-        caught
-    );
-
-    localStorage.setItem(
-        "wins",
-        wins
-    );
-
-    localStorage.setItem(
-        "attacks",
-        attacks
-    );
-
-    localStorage.setItem(
-        "pokeballs",
-        pokeballs
-    );
-
-    localStorage.setItem(
-        "greatballs",
-        greatballs
-    );
-
-    localStorage.setItem(
-        "potions",
-        potions
-    );
-
-    localStorage.setItem(
-        "questCatch",
-        questCatch
-    );
-
-    localStorage.setItem(
-        "questBattle",
-        questBattle
+    return (
+        "https://raw.githubusercontent.com/" +
+        "PokeAPI/sprites/master/sprites/pokemon/" +
+        "other/official-artwork/" +
+        id +
+        ".png"
     );
 
 }
 
 
-/* =====================================================
-   RENDER
-===================================================== */
+/* =========================================================
+   SPEICHERN
+========================================================= */
+
+function save() {
+
+    localStorage.setItem(
+        SAVE,
+        JSON.stringify({
+
+            coins,
+            balls,
+            greatBalls,
+            potions,
+            wins,
+            caught,
+            questCatch,
+            questWins,
+            gems
+
+        })
+    );
+
+}
+
+
+/* =========================================================
+   ANZEIGE
+========================================================= */
 
 function render() {
 
-    coinsElement.textContent =
+    document.getElementById(
+        "coins"
+    ).textContent =
         Math.floor(coins);
 
-    gemsElement.textContent =
-        gems;
 
-    starsElement.textContent =
-        stars;
+    document.getElementById(
+        "balls"
+    ).textContent =
+        balls;
 
-    caughtElement.textContent =
-        caught;
 
-    winsElement.textContent =
+    document.getElementById(
+        "ballCount"
+    ).textContent =
+        balls;
+
+
+    document.getElementById(
+        "greatBallCount"
+    ).textContent =
+        greatBalls;
+
+
+    document.getElementById(
+        "potionCount"
+    ).textContent =
+        potions;
+
+
+    document.getElementById(
+        "caught"
+    ).textContent =
+        caught.length;
+
+
+    document.getElementById(
+        "wins"
+    ).textContent =
         wins;
 
-    attacksElement.textContent =
-        attacks;
 
-    pokeballsElement.textContent =
-        pokeballs;
-
-    greatballsElement.textContent =
-        greatballs;
+    document.getElementById(
+        "collectionCount"
+    ).textContent =
+        caught.length;
 
 
-    /* QUEST 1 */
+    /* QUEST FANGEN */
 
-    let catchPercent =
+    const catchPercent =
         Math.min(
-            questCatch / 5 * 100,
+            caught.length / 5 * 100,
             100
         );
 
@@ -1677,34 +1819,36 @@ function render() {
     ).style.width =
         catchPercent + "%";
 
+
     document.getElementById(
         "questCatchText"
     ).textContent =
-        questCatch + " / 5";
+        caught.length + " / 5";
 
 
-    /* QUEST 2 */
+    /* QUEST KÄMPFE */
 
-    let battlePercent =
+    const winPercent =
         Math.min(
-            questBattle / 10 * 100,
+            wins / 10 * 100,
             100
         );
 
     document.getElementById(
-        "questBattle"
+        "questWins"
     ).style.width =
-        battlePercent + "%";
+        winPercent + "%";
+
 
     document.getElementById(
-        "questBattleText"
+        "questWinsText"
     ).textContent =
-        questBattle + " / 10";
+        wins + " / 10";
 
 
-    /* QUEST 3 */
+    /* QUEST COINS */
 
-    let coinPercent =
+    const coinPercent =
         Math.min(
             coins / 1000 * 100,
             100
@@ -1715,149 +1859,177 @@ function render() {
     ).style.width =
         coinPercent + "%";
 
+
     document.getElementById(
         "questCoinsText"
     ).textContent =
         Math.floor(coins) +
         " / 1000";
 
+
+    renderCollection();
+
+    save();
+
 }
 
 
-/* =====================================================
-   POKEMON LISTE ERSTELLEN
-===================================================== */
+/* =========================================================
+   POKEDEX
+========================================================= */
 
-function createPokemonList() {
+function renderCollection() {
 
-    const list =
+    const collection =
         document.getElementById(
-            "pokemonList"
+            "collection"
         );
 
-    list.innerHTML = "";
+    collection.innerHTML = "";
 
 
-    pokemon.forEach((p, index) => {
+    pokemon.forEach(p => {
 
-        const row =
+        const card =
             document.createElement("div");
 
-        row.className =
-            "pokemon-row";
+
+        const isCaught =
+            caught.includes(p.id);
 
 
-        row.innerHTML = `
-
-            <img src="
-            https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png">
-
-            <div class="pokemon-info">
-
-                <div class="pokemon-name">
-                    ${p.name}
-                </div>
-
-                <div class="level">
-                    Lv. ${10 + index * 3}
-                </div>
-
-            </div>
-        `;
-
-
-        row.onclick = () => {
-
-            currentPokemon = p;
-
-            moveWildPokemon();
-
-            log(
-                "Du hast " +
-                p.name +
-                " ausgewählt."
+        card.className =
+            "pokemon-card " +
+            (
+                isCaught
+                ? ""
+                : "locked"
             );
 
-        };
+
+        if (isCaught) {
+
+            card.innerHTML = `
+
+                <img src="${imageURL(p.id)}">
+
+                <strong>
+                    ${p.name}
+                </strong>
+
+                <small>
+                    ✓ Gefangen
+                </small>
+
+            `;
+
+        } else {
+
+            card.innerHTML = `
+
+                <div class="question">
+                    ?
+                </div>
+
+                <strong>
+                    Unbekannt
+                </strong>
+
+                <small>
+                    Noch nicht gefangen
+                </small>
+
+            `;
+
+        }
 
 
-        list.appendChild(row);
+        collection.appendChild(card);
 
     });
 
 }
 
 
-/* =====================================================
+/* =========================================================
    WILDES POKEMON AUF MAP
-===================================================== */
+========================================================= */
 
-function moveWildPokemon() {
+function spawnPokemon() {
 
-    const image =
+    currentPokemon =
+        pokemon[
+            Math.floor(
+                Math.random() *
+                pokemon.length
+            )
+        ];
+
+
+    const wild =
         document.getElementById(
             "wildPokemon"
         );
 
 
-    image.src =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
-        + currentPokemon.id +
-        ".png";
+    wild.src =
+        imageURL(
+            currentPokemon.id
+        );
 
 
-    let x =
-        15 +
-        Math.random() * 70;
-
-    let y =
-        35 +
-        Math.random() * 45;
+    wild.style.left =
+        (10 + Math.random() * 75)
+        + "%";
 
 
-    image.style.left =
-        x + "%";
-
-    image.style.top =
-        y + "%";
+    wild.style.top =
+        (35 + Math.random() * 45)
+        + "%";
 
 
-    image.style.transform =
-        "scale(" +
-        (
-            .75 +
-            Math.random() * .35
-        ) +
-        ")";
+    wild.style.display =
+        "block";
 
 }
 
 
-/* =====================================================
-   BATTLE STARTEN
-===================================================== */
+/* =========================================================
+   KLICK AUF WILDES POKEMON
+========================================================= */
+
+document
+.getElementById("wildPokemon")
+.addEventListener(
+    "click",
+    startBattle
+);
+
+
+/* =========================================================
+   KAMPF START
+========================================================= */
 
 function startBattle() {
 
-    currentHP = 100;
+    hp = 100;
 
     maxHP = 100;
 
 
     document.getElementById(
-        "battleTitle"
+        "battleName"
     ).textContent =
         "⚔️ Wildes " +
-        currentPokemon.name +
-        "!";
+        currentPokemon.name;
 
 
     document.getElementById(
-        "battlePokemon"
+        "battleImage"
     ).src =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
-        + currentPokemon.id +
-        ".png";
+        imageURL(
+            currentPokemon.id
+        );
 
 
     updateHP();
@@ -1868,117 +2040,104 @@ function startBattle() {
     ).style.display =
         "flex";
 
-
-    log(
-        "Ein wildes " +
-        currentPokemon.name +
-        " ist erschienen!"
-    );
-
 }
 
 
-/* =====================================================
+/* =========================================================
    ATTACKE
-===================================================== */
+========================================================= */
 
-function battleAttack(
-    damage
-) {
+function battleAttack(damage) {
 
-    attacks++;
+    const battle =
+        document.getElementById(
+            "battle"
+        );
 
-    currentHP -= damage;
 
+    if (
+        battle.style.display !== "flex"
+    ) {
+        return;
+    }
+
+
+    hp -= damage;
 
     coins += damage;
 
 
-    if (currentHP <= 0) {
+    if (hp <= 0) {
 
-        currentHP = 0;
+        hp = 0;
 
         wins++;
-
-        questBattle++;
 
         coins += 100;
 
 
-        log(
-            "💥 " +
-            currentPokemon.name +
-            " besiegt! +100 Coins"
+        setTimeout(
+            () => {
+
+                closeBattle();
+
+                spawnPokemon();
+
+            },
+            600
         );
-
-
-        setTimeout(() => {
-
-            closeBattle();
-
-            moveWildPokemon();
-
-        }, 700);
 
     }
 
 
     updateHP();
 
-    save();
-
     render();
 
 }
 
 
-/* =====================================================
-   POKEBALL WERFEN
-===================================================== */
+/* =========================================================
+   POKEBALL
+========================================================= */
 
 function throwBall() {
 
-    if (pokeballs <= 0) {
+    if (balls <= 0) {
 
-        log(
-            "❌ Du hast keine Pokébälle!"
+        alert(
+            "Du hast keine Pokébälle!"
         );
 
         return;
     }
 
 
-    pokeballs--;
+    balls--;
 
 
-    let chance =
-        Math.random();
+    /*
+       Je weniger HP das Pokémon hat,
+       desto höher die Fangchance.
+    */
+
+    const hpBonus =
+        (100 - hp) * .004;
 
 
-    if (chance < .45) {
-
-        caught++;
-
-        questCatch++;
-
-        coins += 250;
+    const chance =
+        .30 + hpBonus;
 
 
-        log(
-            "🎉 " +
-            currentPokemon.name +
-            " wurde gefangen! +250 Coins"
-        );
+    if (
+        Math.random() < chance
+    ) {
 
-
-        closeBattle();
-
-        moveWildPokemon();
+        catchPokemon();
 
     } else {
 
-        log(
-            "💨 " +
+        alert(
             currentPokemon.name +
             " ist aus dem Pokéball entkommen!"
         );
@@ -1986,103 +2145,165 @@ function throwBall() {
     }
 
 
-    save();
-
     render();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SUPERBALL
-===================================================== */
+========================================================= */
 
-function buyGreatBall() {
+function throwGreatBall() {
 
-    if (coins < 150) {
+    if (greatBalls <= 0) {
 
-        log(
-            "❌ Nicht genug Coins!"
+        alert(
+            "Du hast keine Superbälle!"
         );
 
         return;
     }
 
 
-    coins -= 150;
-
-    greatballs++;
+    greatBalls--;
 
 
-    log(
-        "🔵 Superball gekauft!"
-    );
+    const hpBonus =
+        (100 - hp) * .005;
 
 
-    save();
+    const chance =
+        .55 + hpBonus;
+
+
+    if (
+        Math.random() < chance
+    ) {
+
+        catchPokemon();
+
+    } else {
+
+        alert(
+            currentPokemon.name +
+            " ist aus dem Superball entkommen!"
+        );
+
+    }
+
 
     render();
 
 }
 
 
-/* =====================================================
-   POKEBALL KAUFEN
-===================================================== */
+/* =========================================================
+   POKEMON FANGEN
+========================================================= */
 
-function buyBall() {
+function catchPokemon() {
 
-    if (coins < 50) {
+    if (
+        !caught.includes(
+            currentPokemon.id
+        )
+    ) {
 
-        log(
-            "❌ Nicht genug Coins!"
+        caught.push(
+            currentPokemon.id
+        );
+
+        questCatch++;
+
+        coins += 250;
+
+
+        alert(
+            "🎉 Gefangen!\n\n" +
+            currentPokemon.name +
+            " gehört jetzt dir!"
+        );
+
+    } else {
+
+        coins += 100;
+
+        alert(
+            "Du hast " +
+            currentPokemon.name +
+            " bereits gefangen!\n" +
+            "+100 Coins"
+        );
+
+    }
+
+
+    closeBattle();
+
+    spawnPokemon();
+
+    render();
+
+}
+
+
+/* =========================================================
+   TRANK
+========================================================= */
+
+function usePotion() {
+
+    if (potions <= 0) {
+
+        alert(
+            "Keine Tränke!"
         );
 
         return;
     }
 
 
-    coins -= 50;
+    potions--;
 
-    pokeballs++;
-
-
-    log(
-        "🔴 Pokéball gekauft!"
-    );
+    hp += 30;
 
 
-    save();
+    if (hp > maxHP) {
+        hp = maxHP;
+    }
+
+
+    updateHP();
 
     render();
 
 }
 
 
-/* =====================================================
-   BATTLE SCHLIESSEN
-===================================================== */
+/* =========================================================
+   FLIEHEN
+========================================================= */
 
-function closeBattle() {
+function runAway() {
 
-    document.getElementById(
-        "battle"
-    ).style.display =
-        "none";
+    closeBattle();
+
+    spawnPokemon();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    HP
-===================================================== */
+========================================================= */
 
 function updateHP() {
 
     document.getElementById(
         "hpText"
     ).textContent =
-        currentHP +
+        hp +
         " / " +
         maxHP;
 
@@ -2091,88 +2312,306 @@ function updateHP() {
         "hpBar"
     ).style.width =
         (
-            currentHP /
-            maxHP *
-            100
+            hp / maxHP * 100
         ) + "%";
 
 }
 
 
-/* =====================================================
-   LOG
-===================================================== */
+/* =========================================================
+   ITEMS KAUFEN
+========================================================= */
 
-function log(
-    text
-) {
+function buyBall() {
 
-    const box =
-        document.getElementById(
-            "log"
+    if (coins < 50) {
+
+        alert(
+            "Du brauchst 50 Coins!"
         );
 
-
-    const time =
-        new Date()
-        .toLocaleTimeString();
+        return;
+    }
 
 
-    box.innerHTML +=
-        "[" +
-        time +
-        "] " +
-        text +
-        "<br>";
+    coins -= 50;
 
+    balls++;
 
-    box.scrollTop =
-        box.scrollHeight;
+    render();
 
 }
 
 
-/* =====================================================
-   AUTOMATISCHE POKEMON-BEWEGUNG
-===================================================== */
+function buyGreatBall() {
 
-setInterval(
-    moveWildPokemon,
-    5000
-);
+    if (coins < 150) {
+
+        alert(
+            "Du brauchst 150 Coins!"
+        );
+
+        return;
+    }
 
 
-/* =====================================================
-   OFFLINE / PASSIV
-===================================================== */
+    coins -= 150;
+
+    greatBalls++;
+
+    render();
+
+}
+
+
+function buyPotion() {
+
+    if (coins < 75) {
+
+        alert(
+            "Du brauchst 75 Coins!"
+        );
+
+        return;
+    }
+
+
+    coins -= 75;
+
+    potions++;
+
+    render();
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+function toggleAdmin() {
+
+    const panel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
+    panel.style.display =
+        panel.style.display === "block"
+        ? "none"
+        : "block";
+
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+function loginAdmin() {
+
+    const code =
+        document.getElementById(
+            "adminCode"
+        ).value;
+
+
+    /*
+       Dein Admin-Code
+    */
+
+    if (code === "342013") {
+
+        document.getElementById(
+            "adminTools"
+        ).style.display =
+            "block";
+
+
+        alert(
+            "👑 Admin-Modus aktiviert!"
+        );
+
+    } else {
+
+        alert(
+            "❌ Falscher Admin-Code!"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN COINS
+========================================================= */
+
+function adminCoins() {
+
+    coins += 10000;
+
+    render();
+
+}
+
+
+/* =========================================================
+   ADMIN BALLS
+========================================================= */
+
+function adminBalls() {
+
+    balls += 100;
+
+    greatBalls += 50;
+
+    render();
+
+}
+
+
+/* =========================================================
+   ADMIN ALLE POKEMON
+========================================================= */
+
+function adminCatchAll() {
+
+    pokemon.forEach(
+        p => {
+
+            if (
+                !caught.includes(
+                    p.id
+                )
+            ) {
+
+                caught.push(
+                    p.id
+                );
+
+            }
+
+        }
+    );
+
+
+    render();
+
+    alert(
+        "🐾 Alle Pokémon freigeschaltet!"
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN RESET
+========================================================= */
+
+function adminReset() {
+
+    if (
+        !confirm(
+            "Wirklich den gesamten Spielstand löschen?"
+        )
+    ) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        SAVE
+    );
+
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function scrollToId(id) {
+
+    document
+        .getElementById(id)
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* =========================================================
+   PASSIVES EINKOMMEN
+========================================================= */
 
 setInterval(
     () => {
 
-        coins += 2;
+        /*
+           Kleine Belohnung fürs Spielen.
+        */
 
-        save();
+        if (caught.length > 0) {
 
-        render();
+            coins +=
+                caught.length;
+
+            render();
+
+        }
 
     },
-    1000
+    5000
 );
 
 
-/* =====================================================
+/* =========================================================
+   POKEMON BEWEGT SICH
+========================================================= */
+
+setInterval(
+    () => {
+
+        const wild =
+            document.getElementById(
+                "wildPokemon"
+            );
+
+
+        if (
+            document.getElementById(
+                "battle"
+            ).style.display !== "flex"
+        ) {
+
+            wild.style.left =
+                (10 + Math.random() * 75)
+                + "%";
+
+            wild.style.top =
+                (35 + Math.random() * 45)
+                + "%";
+
+        }
+
+    },
+    4000
+);
+
+
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
-createPokemonList();
-
-moveWildPokemon();
+spawnPokemon();
 
 render();
-
-log(
-    "⚡ PokeClicker gestartet!"
-);
 
 </script>
 
