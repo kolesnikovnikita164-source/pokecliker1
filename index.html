@@ -1,61 +1,907 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PokeClicker</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+
+<!-- Kein Zoomen auf Handy -->
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
+
+<title>⚡ PokeClicker</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+
+  /* Verhindert Zoom/Gesten beim Klicken */
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+body {
+  color: white;
+  background:
+    linear-gradient(
+      rgba(10, 20, 50, .78),
+      rgba(10, 20, 50, .88)
+    ),
+    url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif");
+
+  background-size: 220px;
+  background-attachment: fixed;
+}
+
+/* ---------------- HEADER ---------------- */
+
+header {
+  text-align: center;
+  padding: 25px 15px 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 42px;
+  text-shadow: 4px 4px #111;
+}
+
+header p {
+  margin: 5px;
+  font-size: 18px;
+}
+
+/* ---------------- SPIEL ---------------- */
+
+.game {
+  width: min(95%, 650px);
+  margin: auto;
+  padding-bottom: 40px;
+}
+
+/* ---------------- STATS ---------------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.stat {
+  background: rgba(255,255,255,.95);
+  color: #222;
+  padding: 12px 5px;
+  border: 3px solid #111;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.stat span {
+  display: block;
+  font-size: 13px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 21px;
+}
+
+/* ---------------- POKEMON ---------------- */
+
+.pokemon-area {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pokemon {
+  width: 230px;
+  height: 230px;
+
+  border-radius: 50%;
+  border: 6px solid #111;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      #fff,
+      #dcecff
+    );
+
+  box-shadow:
+    0 12px 0 #111,
+    0 0 35px rgba(255,255,255,.5);
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: auto;
+
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+
+  transition: transform .08s;
+}
+
+.pokemon:active {
+  transform: scale(.92);
+}
+
+.pokemon img {
+  width: 180px;
+  height: 180px;
+
+  image-rendering: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.message {
+  height: 28px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ---------------- POKEBALL ---------------- */
+
+.pokeballs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin: 20px 0;
+}
+
+.ball {
+  width: 65px;
+  height: 65px;
+
+  border-radius: 50%;
+  border: 4px solid #111;
+
+  background:
+    linear-gradient(
+      #ef3340 0 44%,
+      #111 44% 56%,
+      #fff 56%
+    );
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 0 #111;
+
+  transition:
+    transform .1s,
+    opacity .2s;
+
+  touch-action: manipulation;
+}
+
+.ball:active {
+  transform: scale(.85);
+}
+
+.ball.caught {
+  opacity: .3;
+  transform: scale(.75);
+}
+
+/* ---------------- ATTACKEN ---------------- */
+
+.section {
+  margin-top: 25px;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.attacks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.attack {
+  border: 3px solid #111;
+  border-radius: 15px;
+
+  padding: 15px;
+
+  background: linear-gradient(
+    135deg,
+    #ffcb05,
+    #ff8c00
+  );
+
+  color: #111;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 0 #111;
+
+  touch-action: manipulation;
+}
+
+.attack:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #111;
+}
+
+.attack small {
+  display: block;
+  margin-top: 4px;
+}
+
+/* ---------------- DECK ---------------- */
+
+.deck {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.card {
+  background: rgba(255,255,255,.95);
+  color: #111;
+
+  border: 3px solid #111;
+  border-radius: 15px;
+
+  padding: 8px;
+  text-align: center;
+
+  min-height: 130px;
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+}
+
+.card strong {
+  display: block;
+}
+
+/* ---------------- SHOP ---------------- */
+
+.shop button,
+.reset {
+  width: 100%;
+
+  border: 3px solid #111;
+  border-radius: 15px;
+
+  padding: 15px;
+  margin: 6px 0;
+
+  background: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+}
+
+.shop button:disabled {
+  opacity: .45;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 450px) {
+
+  header h1 {
+    font-size: 32px;
+  }
+
+  .pokemon {
+    width: 190px;
+    height: 190px;
+  }
+
+  .pokemon img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .deck {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="game">
-    <header>
-      <h1>⚡ PokeClicker</h1>
-      <p>Werde zum Clicker-Champion!</p>
-    </header>
 
-    <section class="stats">
-      <div>
-        <span>PokéCoins</span>
-        <strong id="coins">0</strong>
-      </div>
+<div class="game">
 
-      <div>
-        <span>Pro Klick</span>
-        <strong id="perClick">1</strong>
-      </div>
+<header>
+  <h1>⚡ PokeClicker</h1>
+  <p>Fange Pokémon und werde stärker!</p>
+</header>
 
-      <div>
-        <span>Pro Sekunde</span>
-        <strong id="perSecond">0</strong>
-      </div>
-    </section>
+<!-- STATS -->
 
-    <button id="pokemon" class="pokemon">
-      <span id="pokemonEmoji">⚡</span>
-    </button>
+<div class="stats">
 
-    <p id="message">Klick auf das Pokémon!</p>
+  <div class="stat">
+    <span>PokéCoins</span>
+    <strong id="coins">0</strong>
+  </div>
 
-    <section class="shop">
-      <h2>🛒 Shop</h2>
+  <div class="stat">
+    <span>Schaden</span>
+    <strong id="damage">1</strong>
+  </div>
 
-      <button class="upgrade" id="clickUpgrade">
-        <span>🔥 Stärkerer Klick</span>
-        <b>Kosten: <span id="clickCost">25</span></b>
-      </button>
+  <div class="stat">
+    <span>Gefangen</span>
+    <strong id="caught">0</strong>
+  </div>
 
-      <button class="upgrade" id="autoUpgrade">
-        <span>🤖 Auto-Clicker</span>
-        <b>Kosten: <span id="autoCost">100</span></b>
-      </button>
+</div>
 
-      <button class="reset" id="reset">
-        Fortschritt zurücksetzen
-      </button>
-    </section>
-  </main>
 
-  <script src="script.js"></script>
+<!-- AKTUELLES POKEMON -->
+
+<div class="pokemon-area">
+
+  <button
+    class="pokemon"
+    id="pokemonButton">
+
+    <img
+      id="pokemonImage"
+      src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+      alt="Pokémon">
+
+  </button>
+
+  <div class="message" id="message">
+    ⚡ Pikachu wartet auf dich!
+  </div>
+
+</div>
+
+
+<!-- POKEBÄLLE -->
+
+<div class="section">
+
+<h2>🔴 Pokébälle</h2>
+
+<div class="pokeballs">
+
+  <button class="ball" data-ball="1"></button>
+  <button class="ball" data-ball="2"></button>
+  <button class="ball" data-ball="3"></button>
+  <button class="ball" data-ball="4"></button>
+  <button class="ball" data-ball="5"></button>
+
+</div>
+
+</div>
+
+
+<!-- ATTACKEN -->
+
+<div class="section">
+
+<h2>⚔️ Attacken</h2>
+
+<div class="attacks">
+
+  <button class="attack" data-damage="1">
+    ⚡ Donnerblitz
+    <small>+1 Schaden</small>
+  </button>
+
+  <button class="attack" data-damage="5">
+    🔥 Feuersturm
+    <small>+5 Schaden</small>
+  </button>
+
+  <button class="attack" data-damage="10">
+    💧 Hydropumpe
+    <small>+10 Schaden</small>
+  </button>
+
+  <button class="attack" data-damage="25">
+    🌿 Solarstrahl
+    <small>+25 Schaden</small>
+  </button>
+
+</div>
+
+</div>
+
+
+<!-- DECK -->
+
+<div class="section">
+
+<h2>🃏 Dein Pokémon-Deck</h2>
+
+<div class="deck" id="deck">
+
+  <div class="card">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+    <strong>Pikachu</strong>
+  </div>
+
+  <div class="card">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png">
+    <strong>Glumanda</strong>
+  </div>
+
+  <div class="card">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png">
+    <strong>Schiggy</strong>
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- SHOP -->
+
+<div class="section shop">
+
+<h2>🛒 Shop</h2>
+
+<button id="upgradeDamage">
+  🔥 Schaden verbessern
+  — <span id="damageCost">25</span> Coins
+</button>
+
+<button id="upgradeBall">
+  🔴 Bessere Fangchance
+  — <span id="ballCost">50</span> Coins
+</button>
+
+</div>
+
+
+<button class="reset" id="reset">
+  🗑️ Spiel zurücksetzen
+</button>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SPIELDATEN
+========================= */
+
+let coins = Number(
+  localStorage.getItem("coins") || 0
+);
+
+let damage = Number(
+  localStorage.getItem("damage") || 1
+);
+
+let caught = Number(
+  localStorage.getItem("caught") || 0
+);
+
+let damageCost = Number(
+  localStorage.getItem("damageCost") || 25
+);
+
+let ballChance = Number(
+  localStorage.getItem("ballChance") || 35
+);
+
+let ballCost = Number(
+  localStorage.getItem("ballCost") || 50
+);
+
+
+/* =========================
+   POKEMON
+========================= */
+
+const pokemon = [
+  {
+    name: "Pikachu",
+    id: 25
+  },
+  {
+    name: "Glumanda",
+    id: 4
+  },
+  {
+    name: "Schiggy",
+    id: 7
+  },
+  {
+    name: "Bisasam",
+    id: 1
+  },
+  {
+    name: "Evoli",
+    id: 133
+  },
+  {
+    name: "Glurak",
+    id: 6
+  },
+  {
+    name: "Mew",
+    id: 151
+  }
+];
+
+let currentPokemon =
+  pokemon[Math.floor(Math.random() * pokemon.length)];
+
+
+/* =========================
+   ELEMENTE
+========================= */
+
+const coinsText =
+  document.getElementById("coins");
+
+const damageText =
+  document.getElementById("damage");
+
+const caughtText =
+  document.getElementById("caught");
+
+const pokemonImage =
+  document.getElementById("pokemonImage");
+
+const message =
+  document.getElementById("message");
+
+
+/* =========================
+   SPEICHERN
+========================= */
+
+function save() {
+
+  localStorage.setItem(
+    "coins",
+    coins
+  );
+
+  localStorage.setItem(
+    "damage",
+    damage
+  );
+
+  localStorage.setItem(
+    "caught",
+    caught
+  );
+
+  localStorage.setItem(
+    "damageCost",
+    damageCost
+  );
+
+  localStorage.setItem(
+    "ballChance",
+    ballChance
+  );
+
+  localStorage.setItem(
+    "ballCost",
+    ballCost
+  );
+}
+
+
+/* =========================
+   ANZEIGE
+========================= */
+
+function render() {
+
+  coinsText.textContent =
+    Math.floor(coins);
+
+  damageText.textContent =
+    damage;
+
+  caughtText.textContent =
+    caught;
+
+  document.getElementById(
+    "damageCost"
+  ).textContent =
+    damageCost;
+
+  document.getElementById(
+    "ballCost"
+  ).textContent =
+    ballCost;
+
+  document.getElementById(
+    "upgradeDamage"
+  ).disabled =
+    coins < damageCost;
+
+  document.getElementById(
+    "upgradeBall"
+  ).disabled =
+    coins < ballCost;
+}
+
+
+/* =========================
+   NEUES POKEMON
+========================= */
+
+function newPokemon() {
+
+  currentPokemon =
+    pokemon[
+      Math.floor(
+        Math.random() * pokemon.length
+      )
+    ];
+
+  pokemonImage.src =
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
+    + currentPokemon.id +
+    ".png";
+
+  message.textContent =
+    "⚡ " +
+    currentPokemon.name +
+    " ist erschienen!";
+}
+
+
+/* =========================
+   POKEMON KLICKEN
+========================= */
+
+document
+  .getElementById("pokemonButton")
+  .addEventListener("click", function() {
+
+    coins += damage;
+
+    message.textContent =
+      "+" + damage + " Coins!";
+
+    save();
+    render();
+
+  });
+
+
+/* =========================
+   POKEBALL FANGEN
+========================= */
+
+document
+  .querySelectorAll(".ball")
+  .forEach(ball => {
+
+    ball.addEventListener(
+      "click",
+      function() {
+
+        if (
+          ball.classList.contains("caught")
+        ) {
+          return;
+        }
+
+        const random =
+          Math.random() * 100;
+
+        if (random <= ballChance) {
+
+          caught++;
+
+          coins += 25;
+
+          message.textContent =
+            "🎉 " +
+            currentPokemon.name +
+            " gefangen! +25 Coins";
+
+          ball.classList.add("caught");
+
+          setTimeout(() => {
+
+            ball.classList.remove(
+              "caught"
+            );
+
+          }, 1200);
+
+          newPokemon();
+
+        } else {
+
+          message.textContent =
+            "💨 Oh nein! Das Pokémon ist entkommen!";
+
+          ball.classList.add("caught");
+
+          setTimeout(() => {
+
+            ball.classList.remove(
+              "caught"
+            );
+
+          }, 500);
+
+        }
+
+        save();
+        render();
+
+      }
+    );
+
+  });
+
+
+/* =========================
+   ATTACKEN
+========================= */
+
+document
+  .querySelectorAll(".attack")
+  .forEach(attack => {
+
+    attack.addEventListener(
+      "click",
+      function() {
+
+        const attackDamage =
+          Number(
+            this.dataset.damage
+          );
+
+        coins += attackDamage;
+
+        message.textContent =
+          "💥 Attacke! +" +
+          attackDamage +
+          " Coins";
+
+        save();
+        render();
+
+      }
+    );
+
+  });
+
+
+/* =========================
+   SCHADEN-UPGRADE
+========================= */
+
+document
+  .getElementById("upgradeDamage")
+  .addEventListener("click", function() {
+
+    if (coins < damageCost) {
+      return;
+    }
+
+    coins -= damageCost;
+
+    damage += 2;
+
+    damageCost =
+      Math.ceil(
+        damageCost * 1.7
+      );
+
+    message.textContent =
+      "🔥 Schaden erhöht!";
+
+    save();
+    render();
+
+  });
+
+
+/* =========================
+   FANGCHANCE-UPGRADE
+========================= */
+
+document
+  .getElementById("upgradeBall")
+  .addEventListener("click", function() {
+
+    if (coins < ballCost) {
+      return;
+    }
+
+    coins -= ballCost;
+
+    ballChance += 10;
+
+    if (ballChance > 90) {
+      ballChance = 90;
+    }
+
+    ballCost =
+      Math.ceil(
+        ballCost * 2
+      );
+
+    message.textContent =
+      "🔴 Fangchance erhöht!";
+
+    save();
+    render();
+
+  });
+
+
+/* =========================
+   RESET
+========================= */
+
+document
+  .getElementById("reset")
+  .addEventListener("click", function() {
+
+    if (
+      !confirm(
+        "Wirklich alles zurücksetzen?"
+      )
+    ) {
+      return;
+    }
+
+    localStorage.clear();
+
+    location.reload();
+
+  });
+
+
+/* =========================
+   START
+========================= */
+
+render();
+
+</script>
+
 </body>
 </html>
+```
+
+Damit brauchst du **keine `style.css` und keine `script.js` mehr**. Alles steckt in einer Datei.
